@@ -1,0 +1,18 @@
+[
+  {
+    "jobKey": "social-daily-optimization-loop",
+    "name": "Social Daily Optimization Loop",
+    "cadence": "daily",
+    "ownerRoleKey": "growth-social-content-lead",
+    "projectKey": "lead-to-close-project",
+    "goalKey": "lead-to-close-goal"
+  },
+  {
+    "jobKey": "social-weekly-content-planning-review",
+    "name": "Weekly Content Planning Review",
+    "cadence": "weekly",
+    "ownerRoleKey": "growth-editorial-strategy-lead",
+    "projectKey": "idea-to-launch-project",
+    "goalKey": "idea-to-launch-goal"
+  }
+]

@@ -1,0 +1,44 @@
+{
+  "bundleIds": [
+    "uos-growth",
+    "uos-social-content"
+  ],
+  "externalSkills": [
+    {
+      "id": "uos-external-social-content",
+      "sourceRelativePath": "vendor/external-skills/coreyhaines31/marketingskills/social-content"
+    },
+    {
+      "id": "uos-external-content-strategy",
+      "sourceRelativePath": "vendor/external-skills/coreyhaines31/marketingskills/content-strategy"
+    },
+    {
+      "id": "uos-external-copywriting",
+      "sourceRelativePath": "vendor/external-skills/coreyhaines31/marketingskills/copywriting"
+    },
+    {
+      "id": "uos-external-seo-audit",
+      "sourceRelativePath": "vendor/external-skills/coreyhaines31/marketingskills/seo-audit"
+    },
+    {
+      "id": "uos-external-schema-markup",
+      "sourceRelativePath": "vendor/external-skills/coreyhaines31/marketingskills/schema-markup"
+    },
+    {
+      "id": "uos-external-geo",
+      "sourceRelativePath": "vendor/external-skills/zubair-trabzada/geo-seo-claude/geo"
+    },
+    {
+      "id": "uos-external-canonry-aeo-monitoring",
+      "sourceRelativePath": "vendor/external-skills/uos-tools/canonry-aeo-monitoring"
+    },
+    {
+      "id": "uos-external-ffmpeg-media-operations",
+      "sourceRelativePath": "vendor/external-skills/uos-tools/ffmpeg-media-operations"
+    },
+    {
+      "id": "kurs-ing-seo-geo-compliance-engine",
+      "sourceRelativePath": "vendor/external-skills/kurs-ing/seo-geo-compliance-engine"
+    }
+  ]
+}

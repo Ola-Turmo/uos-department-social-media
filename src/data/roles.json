@@ -1,0 +1,92 @@
+[
+  {
+    "roleKey": "growth-social-content-lead",
+    "title": "Social Media & Content Lead",
+    "roleType": "manager",
+    "layer": "social-core"
+  },
+  {
+    "roleKey": "growth-editorial-strategy-lead",
+    "title": "Editorial Strategy Lead",
+    "roleType": "manager",
+    "layer": "social-core"
+  },
+  {
+    "roleKey": "growth-channel-operations-lead",
+    "title": "Channel Operations Lead",
+    "roleType": "manager",
+    "layer": "social-core"
+  },
+  {
+    "roleKey": "growth-content-studio-specialist",
+    "title": "Content Studio Specialist",
+    "roleType": "specialist",
+    "layer": "studio"
+  },
+  {
+    "roleKey": "growth-video-multimedia-specialist",
+    "title": "Video & Multimedia Specialist",
+    "roleType": "specialist",
+    "layer": "studio"
+  },
+  {
+    "roleKey": "growth-community-engagement-specialist",
+    "title": "Community Engagement Specialist",
+    "roleType": "specialist",
+    "layer": "community"
+  },
+  {
+    "roleKey": "growth-social-analytics-specialist",
+    "title": "Analytics & Experimentation Specialist",
+    "roleType": "specialist",
+    "layer": "analytics"
+  },
+  {
+    "roleKey": "growth-instagram-publisher-specialist",
+    "title": "Instagram Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-facebook-publisher-specialist",
+    "title": "Facebook Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-x-publisher-specialist",
+    "title": "X Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-youtube-publisher-specialist",
+    "title": "YouTube Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-tiktok-publisher-specialist",
+    "title": "TikTok Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-reddit-publisher-specialist",
+    "title": "Reddit Community Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "channel"
+  },
+  {
+    "roleKey": "growth-blog-publisher-specialist",
+    "title": "Blog / SEO Publisher Specialist",
+    "roleType": "specialist",
+    "layer": "editorial"
+  },
+  {
+    "roleKey": "growth-brand-safety-reviewer",
+    "title": "Brand Safety & Editorial Reviewer",
+    "roleType": "reviewer",
+    "layer": "review"
+  }
+]

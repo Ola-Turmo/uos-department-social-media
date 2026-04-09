@@ -1,0 +1,17 @@
+{
+  "departmentId": "social-media",
+  "displayName": "Social Media Department",
+  "parentFunctionId": "growth",
+  "parentExecutiveRole": "growth",
+  "moduleId": "autonomous-social-media",
+  "summary": "Editorial strategy, channel publishing, community engagement, and social performance operations.",
+  "requiredSkillBundles": [
+    "uos-growth",
+    "uos-social-content",
+    "uos-connectors-composio"
+  ],
+  "missionRefs": [
+    "lead-to-close",
+    "idea-to-launch"
+  ]
+}
