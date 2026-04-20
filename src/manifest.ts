@@ -12,7 +12,8 @@ const manifest: PaperclipPluginManifestV1 = {
     "events.subscribe",
     "plugin.state.read",
     "plugin.state.write",
-    "ui.dashboardWidget.register"
+    "ui.dashboardWidget.register",
+    "ui.page.register"
   ],
   entrypoints: {
     worker: "./dist/worker.js",
@@ -25,6 +26,13 @@ const manifest: PaperclipPluginManifestV1 = {
         id: "health-widget",
         displayName: "Department Social Media Health",
         exportName: "DashboardWidget"
+      },
+      {
+        type: "page",
+        id: "social-command-center-page",
+        displayName: "Social Media Command Center",
+        exportName: "SocialMediaCommandCenterPage",
+        routePath: "social-command-center"
       }
     ]
   }

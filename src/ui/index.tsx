@@ -1,1 +1,1 @@
-export { DashboardWidget } from "./social-dashboard.js";
+export { DashboardWidget, SocialMediaCommandCenterPage } from "./social-dashboard.js";

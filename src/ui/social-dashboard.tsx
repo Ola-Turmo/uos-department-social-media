@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import * as React from "react";
-import { usePluginAction, usePluginData, type PluginWidgetProps } from "@paperclipai/plugin-sdk/ui";
+import { usePluginAction, usePluginData, type PluginPageProps, type PluginWidgetProps } from "@paperclipai/plugin-sdk/ui";
 import type {
   ConnectorHealthSummary,
   ContentBrief,
@@ -200,7 +200,7 @@ function ConnectorHealthPanel({ data }: { data: HealthData }) {
       <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "12px", color: "#111827" }}>
         Connector Health
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "8px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "8px" }}>
         {connectors.map((c) => (
           <div
             key={c.name}
@@ -236,14 +236,14 @@ function ConnectorHealthPanel({ data }: { data: HealthData }) {
 function OverviewTab({ health }: { health: HealthData | null }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "12px" }}>
         <MetricCard label="Posts This Week" value={12} trend="up" sub="vs 9 last week" />
         <MetricCard label="Avg Engagement" value="4.7%" trend="up" sub="vs 3.2% last week" />
         <MetricCard label="Follower Growth" value="+847" trend="up" sub="this month" />
         <MetricCard label="Active Escalations" value={2} trend="down" sub="1 resolved today" />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "12px" }}>
         <ConnectorHealthPanel data={health ?? { status: "ok", checkedAt: "" }} />
 
         <div
@@ -412,7 +412,7 @@ function ContentTab() {
             borderRadius: "8px",
             padding: "16px",
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
             gap: "12px",
           }}
         >
@@ -546,7 +546,7 @@ function PerformanceTab() {
         <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "16px", color: "#111827" }}>
           Channel Performance Overview
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "8px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))", gap: "8px" }}>
           {PERFORMANCE_DATA.map((ch) => (
             <div key={ch.channel} style={{ textAlign: "center", padding: "12px 8px", background: "#f9fafb", borderRadius: "8px" }}>
               <ChannelBadge channel={ch.channel as SocialChannel} />
@@ -618,7 +618,7 @@ const VIRAL_OPPORTUNITIES = [
 
 function TrendsTab() {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "16px" }}>
       {/* Trending hashtags */}
       <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: "8px", padding: "16px" }}>
         <div style={{ fontSize: "13px", fontWeight: 600, marginBottom: "16px", color: "#111827" }}>
@@ -760,7 +760,7 @@ function CrisisTab() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       {/* Sentiment Overview */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "12px" }}>
         <MetricCard label="Overall Sentiment" value="68%" sub="positive mentions" trend="down" />
         <MetricCard label="Active Escalations" value={2} sub="requiring attention" />
         <MetricCard label="Crisis Resolution" value="94%" sub="resolved within 4h SLA" trend="up" />
@@ -849,14 +849,21 @@ const TABS: Array<{ id: TabId; label: string }> = [
   { id: "crisis", label: "Crisis" },
 ];
 
-export function DashboardWidget(_props: PluginWidgetProps) {
-  const [activeTab, setActiveTab] = useState<TabId>("overview");
-  const { data: healthData } = usePluginData<HealthData>("health");
-  const ping = usePluginAction("ping");
-
+function SocialCommandCenterSurface({
+  activeTab,
+  setActiveTab,
+  healthData,
+  ping,
+  minHeight,
+}: {
+  activeTab: TabId;
+  setActiveTab(next: TabId): void;
+  healthData: HealthData | null;
+  ping: () => Promise<unknown> | unknown;
+  minHeight: string;
+}) {
   return (
-    <div style={{ minHeight: "500px" }}>
-      {/* Header */}
+    <div style={{ minHeight, background: "#fff", border: "1px solid #e5e7eb", borderRadius: "12px", overflow: "hidden" }}>
       <div
         style={{
           display: "flex",
@@ -865,6 +872,8 @@ export function DashboardWidget(_props: PluginWidgetProps) {
           padding: "12px 16px",
           borderBottom: "1px solid #e5e7eb",
           background: "#fff",
+          gap: "12px",
+          flexWrap: "wrap",
         }}
       >
         <div>
@@ -872,32 +881,35 @@ export function DashboardWidget(_props: PluginWidgetProps) {
             Social Media Command Center
           </div>
           <div style={{ fontSize: "12px", color: "#6b7280" }}>
-            Multi-platform analytics, content & crisis management
+            Multi-platform analytics, content, trends, and crisis operations
           </div>
         </div>
-        <button
-          onClick={() => void ping()}
-          style={{
-            padding: "6px 14px",
-            borderRadius: "6px",
-            border: "1px solid #d1d5db",
-            background: "#fff",
-            color: "#374151",
-            fontSize: "12px",
-            cursor: "pointer",
-          }}
-        >
-          ↻ Ping
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          <StatusBadge status={healthData?.status ?? "unknown"} />
+          <button
+            onClick={() => void ping()}
+            style={{
+              padding: "6px 14px",
+              borderRadius: "6px",
+              border: "1px solid #d1d5db",
+              background: "#fff",
+              color: "#374151",
+              fontSize: "12px",
+              cursor: "pointer",
+            }}
+          >
+            Ping
+          </button>
+        </div>
       </div>
 
-      {/* Tab Bar */}
       <div
         style={{
           display: "flex",
           borderBottom: "1px solid #e5e7eb",
           background: "#fff",
           padding: "0 16px",
+          overflowX: "auto",
         }}
       >
         {TABS.map((tab) => (
@@ -914,6 +926,7 @@ export function DashboardWidget(_props: PluginWidgetProps) {
               fontWeight: activeTab === tab.id ? 600 : 400,
               cursor: "pointer",
               transition: "all 0.15s ease",
+              whiteSpace: "nowrap",
             }}
           >
             {tab.label}
@@ -921,13 +934,200 @@ export function DashboardWidget(_props: PluginWidgetProps) {
         ))}
       </div>
 
-      {/* Tab Content */}
       <div style={{ padding: "16px", background: "#f9fafb", minHeight: "400px" }}>
-        {activeTab === "overview" && <OverviewTab health={healthData ?? null} />}
+        {activeTab === "overview" && <OverviewTab health={healthData} />}
         {activeTab === "content" && <ContentTab />}
         {activeTab === "performance" && <PerformanceTab />}
         {activeTab === "trends" && <TrendsTab />}
         {activeTab === "crisis" && <CrisisTab />}
+      </div>
+    </div>
+  );
+}
+
+function SummarySection(props: { title: string; subtitle?: string; children: React.ReactNode }) {
+  return (
+    <div
+      style={{
+        background: "#fff",
+        border: "1px solid #e5e7eb",
+        borderRadius: "10px",
+        padding: "14px",
+        display: "grid",
+        gap: "10px",
+      }}
+    >
+      <div>
+        <div style={{ fontSize: "13px", fontWeight: 700, color: "#111827" }}>{props.title}</div>
+        {props.subtitle ? <div style={{ fontSize: "11px", color: "#6b7280", marginTop: "2px" }}>{props.subtitle}</div> : null}
+      </div>
+      {props.children}
+    </div>
+  );
+}
+
+export function DashboardWidget(_props: PluginWidgetProps) {
+  const { data: healthData } = usePluginData<HealthData>("health");
+  const ping = usePluginAction("ping");
+  const contentStatusCounts = CONTENT_SAMPLES.reduce<Record<string, number>>((acc, brief) => {
+    acc[brief.status] = (acc[brief.status] ?? 0) + 1;
+    return acc;
+  }, {});
+  const activeEscalations = ESCALATIONS.filter((esc) => esc.status === "active");
+  const bestChannel = [...PERFORMANCE_DATA].sort((a, b) => b.engagement - a.engagement)[0];
+  const topOpportunity = [...VIRAL_OPPORTUNITIES].sort((a, b) => b.score - a.score)[0];
+
+  return (
+    <div style={{ minHeight: "420px", display: "grid", gap: "14px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          gap: "12px",
+          padding: "14px 16px",
+          borderRadius: "12px",
+          border: "1px solid #e5e7eb",
+          background: "#fff",
+          flexWrap: "wrap",
+        }}
+      >
+        <div style={{ display: "grid", gap: "4px" }}>
+          <div style={{ fontSize: "16px", fontWeight: 700, color: "#111827" }}>Social Media Command Center</div>
+          <div style={{ fontSize: "12px", color: "#6b7280" }}>
+            Cleaner dashboard summary. Open the full company page for the heavier workflow.
+          </div>
+          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "4px" }}>
+            <StatusBadge status={healthData?.status ?? "unknown"} />
+            <span style={{ fontSize: "11px", color: "#6b7280" }}>
+              {healthData?.checkedAt ? `Checked ${new Date(healthData.checkedAt).toLocaleTimeString()}` : "No recent health check"}
+            </span>
+          </div>
+        </div>
+        <button
+          onClick={() => void ping()}
+          style={{
+            padding: "6px 14px",
+            borderRadius: "6px",
+            border: "1px solid #d1d5db",
+            background: "#fff",
+            color: "#374151",
+            fontSize: "12px",
+            cursor: "pointer",
+          }}
+        >
+          Ping
+        </button>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "12px" }}>
+        <MetricCard label="Posts This Week" value={12} trend="up" sub="vs 9 last week" />
+        <MetricCard label="Avg Engagement" value="4.7%" trend="up" sub="cross-channel" />
+        <MetricCard label="Best Channel" value={bestChannel.channel.toUpperCase()} sub={`${bestChannel.engagement}% engagement`} />
+        <MetricCard label="Active Escalations" value={activeEscalations.length} trend={activeEscalations.length > 0 ? "down" : "neutral"} sub="watch list" />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "12px" }}>
+        <SummarySection title="Content Pipeline" subtitle="Compact queue so the dashboard stays readable">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "8px" }}>
+            {[
+              ["Draft", contentStatusCounts.draft ?? 0],
+              ["Review", contentStatusCounts.in_review ?? 0],
+              ["Approved", contentStatusCounts.approved ?? 0],
+              ["Published", contentStatusCounts.published ?? 0],
+            ].map(([label, count]) => (
+              <div key={label} style={{ padding: "10px", borderRadius: "8px", background: "#f9fafb", border: "1px solid #eef2f7" }}>
+                <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.4px" }}>{label}</div>
+                <div style={{ fontSize: "18px", fontWeight: 700, color: "#111827", marginTop: "4px" }}>{count}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "grid", gap: "8px" }}>
+            {CONTENT_SAMPLES.slice(0, 3).map((brief) => (
+              <div key={brief.briefId} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", padding: "8px 10px", background: "#f9fafb", borderRadius: "8px" }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: "12px", fontWeight: 600, color: "#111827", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{brief.campaign}</div>
+                  <div style={{ fontSize: "11px", color: "#6b7280", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{brief.keyMessage}</div>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                  <ChannelBadge channel={brief.channel} />
+                  <StatusBadge status={brief.status} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </SummarySection>
+
+        <SummarySection title="Channel Momentum" subtitle="What deserves attention first">
+          <div style={{ display: "grid", gap: "10px" }}>
+            {PERFORMANCE_DATA.slice().sort((a, b) => b.engagement - a.engagement).slice(0, 4).map((channel) => (
+              <div key={channel.channel} style={{ display: "grid", gridTemplateColumns: "auto 1fr auto", alignItems: "center", gap: "10px" }}>
+                <ChannelBadge channel={channel.channel as SocialChannel} />
+                <div style={{ height: "8px", background: "#e5e7eb", borderRadius: "999px", overflow: "hidden" }}>
+                  <div style={{ width: `${Math.min(channel.engagement * 12, 100)}%`, height: "100%", background: "#3b82f6" }} />
+                </div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "#111827" }}>{channel.engagement}%</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ padding: "10px 12px", borderRadius: "8px", background: "#eff6ff", border: "1px solid #bfdbfe" }}>
+            <div style={{ fontSize: "11px", color: "#1d4ed8", textTransform: "uppercase", letterSpacing: "0.5px" }}>Top opportunity</div>
+            <div style={{ marginTop: "4px", fontSize: "13px", fontWeight: 700, color: "#111827" }}>{topOpportunity.topic}</div>
+            <div style={{ marginTop: "4px", fontSize: "12px", color: "#475569" }}>
+              Score {topOpportunity.score} · window {topOpportunity.window}
+            </div>
+          </div>
+        </SummarySection>
+
+        <SummarySection title="Risk & Connectors" subtitle="Enough signal for the dashboard without the full control room">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: "8px" }}>
+            {[
+              { label: "Connectors", value: "8 live" },
+              { label: "Escalations", value: `${activeEscalations.length} active` },
+              { label: "Followers", value: "+847" },
+              { label: "Growth", value: "+12%" },
+            ].map((item) => (
+              <div key={item.label} style={{ padding: "10px", borderRadius: "8px", background: "#f9fafb", border: "1px solid #eef2f7" }}>
+                <div style={{ fontSize: "11px", color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.4px" }}>{item.label}</div>
+                <div style={{ fontSize: "16px", fontWeight: 700, color: "#111827", marginTop: "4px" }}>{item.value}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "grid", gap: "8px" }}>
+            {activeEscalations.slice(0, 2).map((esc) => (
+              <div key={esc.escalationId} style={{ display: "grid", gap: "4px", padding: "10px 12px", borderRadius: "8px", background: "#fff7ed", border: "1px solid #fdba74" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", alignItems: "center" }}>
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: "#9a3412", textTransform: "uppercase" }}>{esc.severity}</div>
+                  {esc.affectedChannel ? <ChannelBadge channel={esc.affectedChannel} /> : null}
+                </div>
+                <div style={{ fontSize: "12px", color: "#7c2d12" }}>{esc.trigger}</div>
+              </div>
+            ))}
+            <div style={{ fontSize: "11px", color: "#6b7280" }}>
+              Full command center page includes the detailed tabs for content, performance, trends, and crisis operations.
+            </div>
+          </div>
+        </SummarySection>
+      </div>
+    </div>
+  );
+}
+
+export function SocialMediaCommandCenterPage(_props: PluginPageProps) {
+  const [activeTab, setActiveTab] = useState<TabId>("overview");
+  const { data: healthData } = usePluginData<HealthData>("health");
+  const ping = usePluginAction("ping");
+
+  return (
+    <div style={{ padding: "16px", background: "#f8fafc" }}>
+      <div style={{ maxWidth: "1480px", margin: "0 auto" }}>
+        <SocialCommandCenterSurface
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          healthData={healthData ?? null}
+          ping={() => ping()}
+          minHeight="720px"
+        />
       </div>
     </div>
   );
