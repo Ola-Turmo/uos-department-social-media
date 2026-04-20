@@ -5,6 +5,7 @@
  */
 
 import { useState } from "react";
+import * as React from "react";
 import { usePluginAction, usePluginData, type PluginWidgetProps } from "@paperclipai/plugin-sdk/ui";
 import type {
   ConnectorHealthSummary,
